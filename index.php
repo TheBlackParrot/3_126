@@ -102,9 +102,16 @@
 							$page = 0;
 						else
 							$page = $_GET['page']-1;
+
+						if(!isset($_SESSION['username']))
+							$max_rating = $acct_set['guest_rating'];
+						else
+							$max_rating = $_SESSION['max_rating'];
+
 						$start = $page * $setting['images_on_page'];
+
 						if(!isset($_GET['search']))
-							$query = "SELECT * FROM image_db WHERE RATING<=" . $_SESSION['max_rating'] . " ORDER BY ID DESC LIMIT " . $page * $setting['images_on_page'] . ", " . $setting['images_on_page'];
+							$query = "SELECT * FROM image_db WHERE RATING<=" . $max_rating . " ORDER BY ID DESC LIMIT " . $page * $setting['images_on_page'] . ", " . $setting['images_on_page'];
 						else {
 							$search_words = explode(" ",$_GET['search']);
 
@@ -117,7 +124,7 @@
 							}
 							//die($p_query);
 
-							$query = "SELECT * FROM image_db WHERE " . $p_query . " AND RATING<=" . $_SESSION['max_rating'] . " ORDER BY ID LIMIT " . $page * $setting['images_on_page'] . ", " . $setting['images_on_page'];
+							$query = "SELECT * FROM image_db WHERE " . $p_query . " AND RATING<=" . $rating . " ORDER BY ID LIMIT " . $page * $setting['images_on_page'] . ", " . $setting['images_on_page'];
 						}
 						$result = mysqli_query($mysqli,$query);
 						while($row = mysqli_fetch_array($result)) {
@@ -190,7 +197,7 @@
 							$toadd = 10;
 							// have to take limits off here for correct page numbers, pretty sure this can be worked around but :X
 							if(!isset($_GET['search']))
-								$query = "SELECT * FROM image_db WHERE RATING<=" . $_SESSION['max_rating'];
+								$query = "SELECT * FROM image_db WHERE RATING<=" . $max_rating;
 							else {
 								$search_words = explode(" ",$_GET['search']);
 

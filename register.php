@@ -21,6 +21,7 @@
 <body>
 	<div class="wrapper">
 		<?php include "includes/sections/header.php"; ?>
+		<?php include "includes/sections/status_messages.php"; ?>
 		<div class="content">
 			<div class="column1">
 				<div class="c_c">

@@ -31,7 +31,11 @@
 	});
 	</script>
 	<?php
-		$query = 'SELECT ID FROM image_db WHERE RATING<=' . $_SESSION['max_rating'];
+		if(!isset($_SESSION['username']))
+			$max_rating = $acct_set['guest_rating'];
+		else
+			$max_rating = $_SESSION['max_rating'];
+		$query = 'SELECT ID FROM image_db WHERE RATING<=' . $max_rating;
 		$result = mysqli_query($mysqli,$query);
 		$count = mysqli_num_rows($result);
 		if(isset($_SESSION['username'])) {
